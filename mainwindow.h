@@ -19,11 +19,16 @@ signals:
     void addingEllipse(bool);
     void addingLine(bool);
     void addingRectangle(bool);
+    void displaySizeBox(bool);
+    void changingColor(bool);
+    void untoggleBoxFunc(bool);
 
 public slots:
     void addEllipse(bool toggled);
     void addLine(bool toggled);
     void addRectangle(bool toggled);
+    void changingSize(bool triggered);
+    void changedColor(bool triggered);
 
 private:
     Ui::MainWindow *ui;

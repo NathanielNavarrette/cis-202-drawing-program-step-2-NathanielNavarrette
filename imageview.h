@@ -6,6 +6,8 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QMouseEvent>
+#include <QInputDialog>
+#include <QColorDialog>
 #include <vector>
 
 enum Operation {noop,ellipse,rectangle,line};
@@ -20,12 +22,13 @@ signals:
 
 public slots:
     void mousePressEvent(QMouseEvent * e);
-    // void mouseReleaseEvent(QMouseEvent * e);
-    // void mouseDoubleClickEvent(QMouseEvent * e);
     void mouseMoveEvent(QMouseEvent * e);
     void addingEllipse(bool);
     void addingLine(bool);
     void addingRectangle(bool);
+    void changingColor(bool);
+    void displaySizeBox(bool);
+
 private:
     QGraphicsScene * scene;
     QPointF original_position;
@@ -33,9 +36,12 @@ private:
     Operation current_op;
     Operation original_op;
     Operation prev_op;
-    int count = 0;
 
-    int objectSize = 100;
+    QColor m_color = Qt::black;
+
+    int m_count = 0;
+
+    int m_objectSize = 100;
 
     void drawEllipse(QMouseEvent * e);
     void drawRectangle(QMouseEvent * e);
@@ -45,7 +51,5 @@ private:
 
     std::vector<QGraphicsItem> prev_items; // a vector to store for "undo"
 
-    QPen getColorPen();
-    QBrush getColorBrush();
 };
 #endif // IMAGEVIEW_H

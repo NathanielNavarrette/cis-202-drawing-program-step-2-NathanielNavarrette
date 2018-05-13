@@ -17,6 +17,9 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label">
+      <property name="toolTipDuration">
+       <number>0</number>
+      </property>
       <property name="text">
        <string>TextLabel</string>
       </property>
@@ -39,11 +42,13 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="actionEllipse"/>
    <addaction name="actionRectangle"/>
    <addaction name="actionLine"/>
+   <addaction name="actionSize"/>
+   <addaction name="actionColor"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionEllipse">
@@ -77,6 +82,28 @@
    </property>
    <property name="toolTip">
     <string>Add a Line</string>
+   </property>
+  </action>
+  <action name="actionSize">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Size</string>
+   </property>
+   <property name="toolTip">
+    <string>Change the Size</string>
+   </property>
+  </action>
+  <action name="actionColor">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Color</string>
+   </property>
+   <property name="toolTip">
+    <string>Choose the Color</string>
    </property>
   </action>
  </widget>
@@ -227,11 +254,78 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSize</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changingSize(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>485</x>
+     <y>391</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>untoggleBoxFunc(bool)</signal>
+   <receiver>actionSize</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>485</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionColor</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changedColor(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>485</x>
+     <y>391</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>untoggleBoxFunc(bool)</signal>
+   <receiver>actionColor</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>485</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>addingEllipse(bool)</signal>
+  <signal>untoggleBoxFunc(bool)</signal>
   <slot>addEllipse(bool)</slot>
   <slot>addRectangle(bool)</slot>
   <slot>addLine(bool)</slot>
+  <slot>changingSize(bool)</slot>
+  <slot>changedColor(bool)</slot>
  </slots>
 </ui>

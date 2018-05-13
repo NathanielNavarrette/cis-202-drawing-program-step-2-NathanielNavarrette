@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "imageview.h"
 #include "ui_mainwindow.h"
+
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -30,4 +31,16 @@ void MainWindow::addLine(bool toggled)
 void MainWindow::addRectangle(bool toggled)
 {
     emit addingRectangle(toggled);
+}
+
+void MainWindow::changingSize(bool triggered)
+{
+    emit displaySizeBox((triggered));
+    emit untoggleBoxFunc(false); // have to wire
+}
+
+void MainWindow::changedColor(bool triggered)
+{
+    emit changingColor(triggered);
+    emit untoggleBoxFunc(false);
 }

@@ -13,6 +13,8 @@ ImageView::ImageView(QWidget *parent) :
     connect(parent,SIGNAL(addingEllipse(bool)),this,SLOT(addingEllipse(bool)));
     connect(parent,SIGNAL(addingLine(bool)),this,SLOT(addingLine(bool)));
     connect(parent,SIGNAL(addingRectangle(bool)),this,SLOT(addingRectangle(bool)));
+    connect(parent,SIGNAL(displaySizeBox(bool)),this,SLOT(displaySizeBox(bool)));
+    connect(parent,SIGNAL(changingColor(bool)),this,SLOT(changingColor(bool)));
 
 }
 
@@ -53,17 +55,17 @@ void ImageView::mousePressEvent(QMouseEvent * e)
         scene->clear();
     }
 
-    this->count++;
+    this->m_count++;
 }
 
 void ImageView::drawEllipse(QMouseEvent * e)
 {
     qDebug() << "Drawing Ellipse";
     auto pos = mapToScene(e->pos());
-    scene->addEllipse(pos.x()-(objectSize/2),pos.y()-(objectSize/2),		//x,y position of the upper left hand corner
-                      objectSize,objectSize,				// width and height of the rectangle
-                      getColorPen(),		// the pen used for the outline
-                      getColorBrush()); 	// the brush used for the inside of the ellipse
+    scene->addEllipse(pos.x()-(m_objectSize/2),pos.y()-(m_objectSize/2),		//x,y position of the upper left hand corner
+                      m_objectSize,m_objectSize,				// width and height of the rectangle
+                      QPen(m_color),		// the pen used for the outline
+                      QBrush(m_color)); 	// the brush used for the inside of the ellipse
 
     last_position = pos;
 }
@@ -80,10 +82,10 @@ void ImageView::drawRectangle(QMouseEvent * e)
 {
     qDebug() << "Drawing Rectangle";
     auto pos = mapToScene(e->pos());
-    scene->addRect(pos.x()-(objectSize/2),pos.y()-(objectSize/2),		//x,y position of the upper left hand corner
-                   objectSize,objectSize,				// width and height of the rectangle
-                   getColorPen(),		// the pen used for the outline
-                   getColorBrush()); 	// the brush used for the inside of the ellipse
+    scene->addRect(pos.x()-(m_objectSize/2),pos.y()-(m_objectSize/2),		//x,y position of the upper left hand corner
+                   m_objectSize,m_objectSize,				// width and height of the rectangle
+                   QPen(m_color),		// the pen used for the outline
+                   QBrush(m_color)); 	// the brush used for the inside of the ellipse
     last_position = pos;
 }
 
@@ -98,7 +100,7 @@ void ImageView::drawLine(QMouseEvent * e)
                        last_position.y(),
                        pos.x(),
                        pos.y(),
-                       getColorPen()
+                       QPen(m_color)
                        );
     }
     last_position = pos;
@@ -140,38 +142,20 @@ void ImageView::addingRectangle(bool toggled)
     }
 }
 
-QPen ImageView::getColorPen()
+void ImageView::displaySizeBox(bool triggered)
 {
-    int inc = this->count % 5;
-
-    if(inc == 0)
-        return QPen(Qt::black);
-    else if(inc == 1)
-        return QPen(Qt::blue);
-    else if(inc == 2)
-        return QPen(Qt::red);
-    else if(inc == 3)
-        return QPen(Qt::green);
-    else if(inc == 4)
-        return QPen(Qt::yellow);
-    else
-        return QPen(Qt::black);
+    qDebug() << "Display box Image";
+    bool ok;
+    int size_change = QInputDialog::getInt(this, tr("Change Shape Size"),
+                                     tr("Size:"), 100, 10, 300, 1, &ok);
+    if(size_change > 0)
+        this->m_objectSize = size_change;
 }
 
-QBrush ImageView::getColorBrush()
+void ImageView::changingColor(bool triggered)
 {
-    int inc = this->count % 5;
+    qDebug() << "Display Color Image";
+    QColor change_color = QColorDialog::getColor(Qt::black, this, "Color Changer", 0);
 
-    if(inc == 0)
-        return QBrush(Qt::black);
-    else if(inc == 1)
-        return QBrush(Qt::blue);
-    else if(inc == 2)
-        return QBrush(Qt::red);
-    else if(inc == 3)
-        return QBrush(Qt::green);
-    else if(inc == 4)
-        return QBrush(Qt::yellow);
-    else
-        return QBrush(Qt::black);
+    m_color = change_color;
 }
