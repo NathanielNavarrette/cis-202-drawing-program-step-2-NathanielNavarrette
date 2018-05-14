@@ -6,7 +6,11 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QMouseEvent>
+#include <QDialogButtonBox>
 #include <QInputDialog>
+#include <QFormLayout>
+#include <QMessageBox>
+#include <QLabel>
 #include <QColorDialog>
 #include <vector>
 
@@ -41,7 +45,9 @@ private:
 
     int m_count = 0;
 
-    int m_objectSize = 100;
+    //int m_objectSize = 100;
+    int m_objectHeight = 100;
+    int m_objectWidth = 100;
 
     void drawEllipse(QMouseEvent * e);
     void drawRectangle(QMouseEvent * e);
@@ -49,7 +55,7 @@ private:
 
     void deleteEllipse(QMouseEvent * e);
 
-    std::vector<QGraphicsItem> prev_items; // a vector to store for "undo"
+    std::vector<QPoint> prev_items; // a vector to store for "undo"
 
 };
 #endif // IMAGEVIEW_H
